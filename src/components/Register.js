@@ -38,7 +38,7 @@ function Register(props) {
         <input type='password' id='password-input' name='password' value={password} onChange={handPassword} required className='sign__input' placeholder='Пароль'></input>
         <button type='submit' className='sign__button'>Зарегистрироваться</button>
       </form>
-      <a href='../sign-in' type='button' className='sign__button-sign-in'>Уже зарегистрированы? Войти</a>
+      <a href='/sign-in' type='button' className='sign__button-sign-in'>Уже зарегистрированы? Войти</a>
     </section>
   );
 }
