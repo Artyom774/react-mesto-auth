@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import '../index.css';
 import Header from './Header';
@@ -16,8 +16,9 @@ import MessagePopup from './MessagePopup';
 import { api } from '../utils/Api.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { CardContext } from '../contexts/CardContext';
+import { getContent } from '../Auth';
 
-function App() {  
+function App(props) {  
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -31,6 +32,7 @@ function App() {
   const [cards, setCards] = React.useState([]);
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
+  const [email, setEmail] = React.useState('');
 
   React.useEffect(()=>{
     Promise.all([
@@ -41,6 +43,8 @@ function App() {
         setCurrentUser(info);
         setCards(initialCards);
       }).catch(err => console.log(err));
+      console.log(localStorage.getItem('token'));
+      tokenCheck();
   }, [])
 
   React.useEffect(() => {
@@ -55,7 +59,20 @@ function App() {
         document.removeEventListener('keydown', closeByEscape);
       }
     }
-  }, [isOpen]) 
+  }, [isOpen])
+
+  function tokenCheck() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      getContent(token).then((res) => {
+        if (res) {
+          setEmail(res.email);
+          setLoggedIn(true);
+          props.history.push('/');
+        };
+      }); 
+    };
+  }
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -184,4 +201,4 @@ function App() {
   );
 }
 
-export default App;
+export default withRouter(App);
