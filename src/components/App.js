@@ -12,7 +12,8 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
 import PopupConfirmation from './PopupConfirmation';
-import {api} from '../utils/Api.js';
+import MessagePopup from './MessagePopup';
+import { api } from '../utils/Api.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { CardContext } from '../contexts/CardContext';
 
@@ -22,12 +23,14 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
-  const isOpen = isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isImagePopupOpen || isConfirmPopupOpen;
+  const [isMessagePopupOpen, setIsMessagePopupOpen] = React.useState(false);
+  const isOpen = isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isImagePopupOpen || isConfirmPopupOpen || isMessagePopupOpen;
   const [imageLink, setImageLink] = React.useState('');
   const [imageTitle, setImageTitle] = React.useState('');
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
-  const [loggedIn, setLoggedIn] = React.useState(true);
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [isSuccess, setIsSuccess] = React.useState(false);
 
   React.useEffect(()=>{
     Promise.all([
@@ -76,6 +79,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsImagePopupOpen(false);
     setIsConfirmPopupOpen(false);
+    setIsMessagePopupOpen(false);
   }  
 
   function handleImageClick(link, name) {
@@ -149,7 +153,7 @@ function App() {
                 <Login />
               </Route>
               <Route path='/sign-up'>
-                <Register />
+                <Register setSuccess={setIsSuccess} setMessagePopupOpen={setIsMessagePopupOpen} />
               </Route>
               <ProtectedRoute
               exact path="/"
@@ -162,16 +166,6 @@ function App() {
               changeCards={setCards}
               onCardLike={handleCardLike}
               onDeleteCard={handleDeleteCard} />
-              {/*<Route exact path='/'>
-                <Main
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                imageWatch={handleImageClick}
-                changeCards={setCards}
-                onCardLike={handleCardLike}
-                onDeleteCard={handleDeleteCard} />
-              </Route>*/}
               <Route path='/'>
                 {loggedIn ? <Redirect to='/' /> : <Redirect to='/sign-in' />}
               </Route>
@@ -182,6 +176,7 @@ function App() {
             <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
             <ImagePopup isOpen={isImagePopupOpen} onClose={closeAllPopups} imageInfo={{link: imageLink, title: imageTitle}} />
             <PopupConfirmation isOpen={isConfirmPopupOpen} onClose={closeAllPopups} />
+            <MessagePopup isOpen={isMessagePopupOpen} onClose={closeAllPopups} success={isSuccess} />
           </div>
         </div>
       </CardContext.Provider>
