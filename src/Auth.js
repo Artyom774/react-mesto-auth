@@ -12,7 +12,6 @@ export const register = (password, email) => {
     })
   })
   .then((response) => {
-    console.log(response);
     try {
       if (response.status === 201) {
         return response.json();
@@ -39,7 +38,6 @@ export const authorization = (password, email) => {
     })
   })
   .then((response) => {
-    console.log(response);
     try {
       if (response.status === 200) {
         return response.json();

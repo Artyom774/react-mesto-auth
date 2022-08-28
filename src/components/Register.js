@@ -20,9 +20,9 @@ function Register(props) {
       if (res) {
         setEmail('');
         setPassword('');
-        props.history.push('/login');
         props.setSuccess(true);
         props.setMessagePopupOpen(true);
+        props.history.push('/sign-in');
       } else {
         props.setSuccess(false);
         props.setMessagePopupOpen(true);

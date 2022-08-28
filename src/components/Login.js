@@ -20,9 +20,8 @@ function Login(props) {
       if (res) {
         setEmail('');
         setPassword('');
-        props.history.push('../');
-        props.setSuccess(true);
-        props.setMessagePopupOpen(true);
+        props.setLoggedIn(true);
+        props.history.push('/');
       } else {
         props.setSuccess(false);
         props.setMessagePopupOpen(true);

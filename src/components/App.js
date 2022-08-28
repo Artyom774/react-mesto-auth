@@ -150,7 +150,7 @@ function App() {
             <Header />
             <Switch>
               <Route path='/sign-in'>
-                <Login />
+                <Login setSuccess={setIsSuccess} setMessagePopupOpen={setIsMessagePopupOpen} setLoggedIn={setLoggedIn} />
               </Route>
               <Route path='/sign-up'>
                 <Register setSuccess={setIsSuccess} setMessagePopupOpen={setIsMessagePopupOpen} />
