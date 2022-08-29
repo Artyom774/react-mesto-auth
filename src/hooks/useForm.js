@@ -1,4 +1,4 @@
-export function useForm(inputValues) {
+/*export function useForm(inputValues) {
   const [values, setValues] = useState(inputValues);
 
   const handleChange = (event) => {
@@ -6,4 +6,4 @@ export function useForm(inputValues) {
     setValues({...values, [name]: value});
   };
   return {values, handleChange, setValues};
-}
+}*/

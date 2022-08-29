@@ -1,5 +1,4 @@
 import React from 'react';
-import { register } from '../Auth';
 import { Link, withRouter } from 'react-router-dom'; 
 
 function Register(props) {
@@ -16,18 +15,9 @@ function Register(props) {
 
   function handleRegisterSubmit(e) {
     e.preventDefault();
-    register(password, email).then((res) => {
-      if (res) {
-        setEmail('');
-        setPassword('');
-        props.setSuccess(true);
-        props.setMessagePopupOpen(true);
-        props.history.push('/sign-in');
-      } else {
-        props.setSuccess(false);
-        props.setMessagePopupOpen(true);
-      }
-    });
+    props.registrationUser(password, email);
+    setEmail('');
+    setPassword('');
   }
 
   return (

@@ -1,5 +1,4 @@
 import React from 'react';
-import { authorization } from '../Auth';
 import { Link, withRouter } from 'react-router-dom'; 
 
 function Login(props) {
@@ -16,18 +15,9 @@ function Login(props) {
 
   function handleRegisterSubmit(e) {
     e.preventDefault();
-    authorization(password, email).then((res) => {
-      if (res) {
-        props.appSetEmail(email);
-        setEmail('');
-        setPassword('');
-        props.setLoggedIn(true);
-        props.history.push('/');
-      } else {
-        props.setSuccess(false);
-        props.setMessagePopupOpen(true);
-      }
-    });
+    props.authorizateUser(password, email);
+    setEmail('');
+    setPassword('');
   }
 
   return (

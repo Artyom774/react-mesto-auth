@@ -16,7 +16,7 @@ import MessagePopup from './MessagePopup';
 import { api } from '../utils/Api.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { CardContext } from '../contexts/CardContext';
-import { getContent } from '../Auth';
+import { register, authorization, getContent } from '../Auth';
 
 function App(props) {  
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -69,7 +69,8 @@ function App(props) {
           setLoggedIn(true);
           props.history.push('/');
         };
-      }); 
+      })
+      .catch(err => console.log(err));; 
     };
   }
 
@@ -158,6 +159,33 @@ function App(props) {
     .catch(err => console.log(err));
   }
 
+  function authorizateUser(password, email) {
+    authorization(password, email).then((res) => {
+      if (res) {
+        setEmail(email);
+        setLoggedIn(true);
+        props.history.push('/');
+      } else {
+        setIsSuccess(false);
+        setIsMessagePopupOpen(true);
+      }
+    })
+    .catch(err => console.log(err));
+  }
+
+  function registrationUser(password, email) {
+    register(password, email).then((res) => {
+      if (res) {
+        setIsSuccess(true);
+        props.history.push('/sign-in');
+      } else {
+        setIsSuccess(false);
+      }
+    })
+    .finally((res) => {setIsMessagePopupOpen(true);})
+    .catch(err => console.log(err));
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <CardContext.Provider value={cards}>
@@ -166,10 +194,10 @@ function App(props) {
             <Header email={email} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
             <Switch>
               <Route path='/sign-in'>
-                <Login setSuccess={setIsSuccess} setMessagePopupOpen={setIsMessagePopupOpen} setLoggedIn={setLoggedIn} appSetEmail={setEmail} />
+                <Login authorizateUser={authorizateUser} />
               </Route>
               <Route path='/sign-up'>
-                <Register setSuccess={setIsSuccess} setMessagePopupOpen={setIsMessagePopupOpen} />
+                <Register registrationUser={registrationUser} />
               </Route>
               <ProtectedRoute
               exact path="/"
