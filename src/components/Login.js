@@ -18,6 +18,7 @@ function Login(props) {
     e.preventDefault();
     authorization(password, email).then((res) => {
       if (res) {
+        props.appSetEmail(email);
         setEmail('');
         setPassword('');
         props.setLoggedIn(true);

@@ -46,7 +46,7 @@ export const authorization = (password, email) => {
       return (e)
     }
   })
-  .then((res) => {console.log(res);
+  .then((res) => {
     localStorage.setItem('token', res.token);
     return res;
   })

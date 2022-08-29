@@ -43,7 +43,6 @@ function App(props) {
         setCurrentUser(info);
         setCards(initialCards);
       }).catch(err => console.log(err));
-      console.log(localStorage.getItem('token'));
       tokenCheck();
   }, [])
 
@@ -66,7 +65,7 @@ function App(props) {
     if (token) {
       getContent(token).then((res) => {
         if (res) {
-          setEmail(res.email);
+          setEmail(res.data.email);
           setLoggedIn(true);
           props.history.push('/');
         };
@@ -164,10 +163,10 @@ function App(props) {
       <CardContext.Provider value={cards}>
         <div className="App">
           <div className="content">
-            <Header />
+            <Header email={email} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
             <Switch>
               <Route path='/sign-in'>
-                <Login setSuccess={setIsSuccess} setMessagePopupOpen={setIsMessagePopupOpen} setLoggedIn={setLoggedIn} />
+                <Login setSuccess={setIsSuccess} setMessagePopupOpen={setIsMessagePopupOpen} setLoggedIn={setLoggedIn} appSetEmail={setEmail} />
               </Route>
               <Route path='/sign-up'>
                 <Register setSuccess={setIsSuccess} setMessagePopupOpen={setIsMessagePopupOpen} />
