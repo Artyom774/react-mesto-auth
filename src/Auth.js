@@ -1,6 +1,6 @@
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
-function   _processTheResponse(res) {
+function _checkResponse(res) {
     if (res.ok) {
       return res.json();
     };
@@ -18,15 +18,7 @@ export const register = (password, email) => {
       email: email
     })
   })
-  .then((response) => {
-    try {
-      if (response.status === 201) {
-        return response.json();
-      }
-    } catch(e) {
-      return Promise.reject(`Ошибка: ${e.status}`)
-    }
-  })
+  .then(res => { return _checkResponse(res)})
   .then((res) => {
     return res;
   })
@@ -44,15 +36,7 @@ export const authorization = (password, email) => {
       email: email
     })
   })
-  .then((response) => {
-    try {
-      if (response.status === 200) {
-        return response.json();
-      }
-    } catch(e) {
-      return Promise.reject(`Ошибка: ${e.status}`)
-    }
-  })
+  .then(res => { return _checkResponse(res)})
   .then((res) => {
     localStorage.setItem('token', res.token);
     return res;
@@ -68,12 +52,7 @@ export const getContent = (token) => {
       'Authorization': `Bearer ${token}`,
     }
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    };
-    return Promise.reject(`Ошибка: ${res.status}`)
-  })
+  .then(res => { return _checkResponse(res)})
   .then(data => data)
   .catch((err) => console.log(err));
 } 
