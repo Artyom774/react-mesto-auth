@@ -1,6 +1,6 @@
 # Проект Место на React
 
-https://artyom774.github.io/
+https://artyom774.github.io/react-mesto-auth
 
 Данный проект (SPA-приложение) призван продемонстрировать навыки работы с React и JSX при написании сайта, с запросами API.
 Сайт собран с использованием webpack и задеплоен на сервис gh-pages.
