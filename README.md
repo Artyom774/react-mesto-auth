@@ -1,4 +1,4 @@
-# Проект "Место" на React
+# **Проект "Место" на React**
 https://artyom774.github.io/react-mesto-auth
 
 Статус: завершён.
